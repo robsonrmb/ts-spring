@@ -66,7 +66,7 @@ public class EstatisticaController {
 		int qtdAvaliacoesAceita = contabilizacaoService.countContabilizacaoGeralDeAvaliacoesAceitasPorUsuario(id);
 		
 		if (qtdAvaliacoesAceita <= 3) {
-			//TODO retornar uma exceção? Status? 
+			//TODO retornar uma exceção? Status? Tratar a excessão no frontEnd. 
 		}
 		
 		long valores[] = new long[12];
