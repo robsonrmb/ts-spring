@@ -82,6 +82,10 @@ public class Usuario extends AbstractEntity<Long> {
 	@Transient
 	private boolean amigo;
 	
+	@Transient
+	private String dataNascimentoFormatada;
+	
+	
 	public Usuario() {}
 	
 	public Usuario(String nome, String email, String estado, String status) {
@@ -211,5 +215,21 @@ public class Usuario extends AbstractEntity<Long> {
 	public void setAmigo(boolean amigo) {
 		this.amigo = amigo;
 	}
+
+	public String getDataNascimentoFormatada() {
+		String dt = "";
+		String dt_banco = getDataNascimento().toString();
+		if (dt_banco != null && !"".equals(dt_banco.toString())) {
+			dt = dt_banco.substring(8) + '/' +
+				 dt_banco.substring(5,7) + '/' +
+				 dt_banco.substring(0,4);
+		}
+		return dt;
+	}
+
+	public void setDataNascimentoFormatada(String dataNascimentoFormatada) {
+		this.dataNascimentoFormatada = dataNascimentoFormatada;
+	}
+	
 	
 }
