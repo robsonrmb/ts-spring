@@ -59,6 +59,9 @@ public class Usuario extends AbstractEntity<Long> {
 	@Column(name = "status", nullable = false, length = 1)
 	private String status;
 	
+	@Column(name = "sx", length = 1)
+	private String sx;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy="avaliador")
 	private List<Avaliacao> avaliacoes;
@@ -229,6 +232,22 @@ public class Usuario extends AbstractEntity<Long> {
 
 	public void setDataNascimentoFormatada(String dataNascimentoFormatada) {
 		this.dataNascimentoFormatada = dataNascimentoFormatada;
+	}
+
+	public List<Contabilizacao> getContabilizacoes() {
+		return contabilizacoes;
+	}
+
+	public void setContabilizacoes(List<Contabilizacao> contabilizacoes) {
+		this.contabilizacoes = contabilizacoes;
+	}
+
+	public String getSx() {
+		return sx;
+	}
+
+	public void setSx(String sx) {
+		this.sx = sx;
 	}
 	
 	
