@@ -60,7 +60,7 @@ public class Usuario extends AbstractEntity<Long> {
 	private String status;
 	
 	@Column(name = "sx", length = 1)
-	private String sx;
+	private String sexo;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="avaliador")
@@ -91,11 +91,12 @@ public class Usuario extends AbstractEntity<Long> {
 	
 	public Usuario() {}
 	
-	public Usuario(String nome, String email, String estado, String status) {
+	public Usuario(String nome, String email, String estado, String sexo, String status) {
 		super();
 		this.nome = nome;
 		this.email = email;
 		this.estado = estado;
+		this.sexo = sexo;
 		this.status = status;
 	}
 	
@@ -242,12 +243,12 @@ public class Usuario extends AbstractEntity<Long> {
 		this.contabilizacoes = contabilizacoes;
 	}
 
-	public String getSx() {
-		return sx;
+	public String getSexo() {
+		return sexo;
 	}
 
-	public void setSx(String sx) {
-		this.sx = sx;
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 	
 	

@@ -25,7 +25,7 @@ public class AcessoServiceImpl implements AcessoService {
 		Acesso acesso = new Acesso(formCadastroLogin.getEmail(), formCadastroLogin.getSenha());
 		acessoDao.save(acesso);
 		
-		Usuario usuario = new Usuario(formCadastroLogin.getNome(), formCadastroLogin.getEmail(), formCadastroLogin.getEstado(), "A");
+		Usuario usuario = new Usuario(formCadastroLogin.getNome(), formCadastroLogin.getEmail(), formCadastroLogin.getEstado(), formCadastroLogin.getSexo(), "A");
 		usuarioDao.save(usuario);
 	}
 

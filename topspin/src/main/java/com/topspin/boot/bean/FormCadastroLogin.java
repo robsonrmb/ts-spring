@@ -6,6 +6,7 @@ public class FormCadastroLogin {
 	private String email;
 	private String senha;
 	private String estado;
+	private String sexo;
 	
 	public String getNome() {
 		return nome;
@@ -30,6 +31,12 @@ public class FormCadastroLogin {
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	public String getSexo() {
+		return sexo;
+	}
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 	
 }

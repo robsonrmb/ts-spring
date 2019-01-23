@@ -39,7 +39,7 @@ public class AcessoController {
     }
     
     @PostMapping(value="/existe")
-    public ResponseEntity<Boolean> isExisteUsurio(@RequestBody Acesso acesso) {
+    public ResponseEntity<Boolean> isExisteUsuario(@RequestBody Acesso acesso) {
     	
     	boolean isAcesso = this.acessoService.isExisteUsuario(acesso);
         return new ResponseEntity<Boolean>(isAcesso, HttpStatus.OK);	
