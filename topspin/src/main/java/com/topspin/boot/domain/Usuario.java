@@ -222,7 +222,10 @@ public class Usuario extends AbstractEntity<Long> {
 
 	public String getDataNascimentoFormatada() {
 		String dt = "";
-		String dt_banco = getDataNascimento().toString();
+		String dt_banco = null;
+		if (getDataNascimento() != null) {
+			dt_banco = getDataNascimento().toString();
+		}
 		if (dt_banco != null && !"".equals(dt_banco.toString())) {
 			dt = dt_banco.substring(8) + '/' +
 				 dt_banco.substring(5,7) + '/' +
