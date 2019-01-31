@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.topspin.boot.bean.FormAvaliacao;
@@ -23,6 +24,10 @@ import com.topspin.boot.domain.Avaliacao;
 import com.topspin.boot.domain.Usuario;
 import com.topspin.boot.service.AvaliacaoService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value="API de avaliações.")
 @CrossOrigin()
 @RestController
 @RequestMapping(value="/avaliacoes", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -31,34 +36,54 @@ public class AvaliacaoController {
 	@Autowired
 	private AvaliacaoService avaliacaoService;
 	
+	@ApiOperation(value="Adiciona uma avaliação a um usuário.")
 	@PostMapping(value="/add")
     public ResponseEntity<Void> adiciona(@RequestBody FormAvaliacao formAvaliacao){
 		avaliacaoService.salva(formAvaliacao);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 	
+	@ApiOperation(value="Aceita uma avaliação cadastrada.")
 	@PutMapping(value="/aceita")
     public ResponseEntity<Void> aceitaAvaliacao(@RequestBody FormAvaliacao formAvaliacao){
       	avaliacaoService.atualiza(formAvaliacao, "A");
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 	
+	@ApiOperation(value="Recusa uma avaliação cadastrada.")
 	@PutMapping(value="/recusa")
     public ResponseEntity<Void> recusaAvaliacao(@RequestBody FormAvaliacao formAvaliacao){
       	avaliacaoService.atualiza(formAvaliacao, "R");
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
   	
+	@ApiOperation(value="Remove uma avaliação cadastrada.")
   	@DeleteMapping(value="/remove/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id){
-  		//verificar se pode excluir: somente o usuário da avaliacao e somente se estiver pendente
+  		//TODO verificar se pode excluir: somente o usuário da avaliacao e somente se estiver pendente
       	avaliacaoService.exclui(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
   	
-  	@GetMapping(value="/recebidas/{idUsuario}/status/{status}")
-	public ResponseEntity<List<FormAvaliacao>> getAvaliacoesDoAvaliado(@PathVariable("idUsuario") Long idUsuario,
-																  	   @PathVariable("status") String status) {
+	@ApiOperation(value="Lista as avaliações pendentes do usuário.")
+  	@GetMapping(value="/recebidas/pendentes")
+	public ResponseEntity<List<FormAvaliacao>> getAvaliacoesRecebidas(@RequestParam(name="usuario", required=true) Long idUsuario) {
+		Usuario usuario = new Usuario();
+		usuario.setId(idUsuario);
+		
+		Avaliacao avaliacao = new Avaliacao();
+		avaliacao.setAvaliado(usuario);
+		avaliacao.setStatus("P");
+		
+		List<Avaliacao> listaDeAvaliacoes = avaliacaoService.listaPorAvaliadoEStatus(avaliacao);
+		List<FormAvaliacao> listaFA = converteParaFormAvaliacao(listaDeAvaliacoes);
+		return new ResponseEntity<List<FormAvaliacao>>(listaFA, HttpStatus.OK);
+	}
+  	
+	@ApiOperation(value="Lista todas as avaliações pendentes do usuário.")
+  	@GetMapping(value="/recebidas")
+  	public ResponseEntity<List<FormAvaliacao>> getAvaliacoes(@RequestParam(name="usuario", required=true) Long idUsuario,
+															 @RequestParam(name="status", required=false) String status) {
 		Usuario usuario = new Usuario();
 		usuario.setId(idUsuario);
 		
@@ -71,7 +96,7 @@ public class AvaliacaoController {
 		return new ResponseEntity<List<FormAvaliacao>>(listaFA, HttpStatus.OK);
 	}
   	
-  	@GetMapping(value="/recebidas/{idUsuario}/countPendentes")
+  	@GetMapping(value="/recebidas/pendentes/qtd/{idUsuario}")
 	public ResponseEntity<Quantidade> countAvaliacoesDoAvaliadoEPendentes(@PathVariable("idUsuario") Long idUsuario) {
 		Usuario usuario = new Usuario();
 		usuario.setId(idUsuario);

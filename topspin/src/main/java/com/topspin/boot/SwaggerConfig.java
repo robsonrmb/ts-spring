@@ -19,7 +19,7 @@ public class SwaggerConfig {
 	public Docket productApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.topspin.boot"))
+				.apis(RequestHandlerSelectors.basePackage("com.topspin.boot.controller"))
 				.paths(regex("/*.*"))
 				.build()
 				.apiInfo(metaInfo());
@@ -29,8 +29,8 @@ public class SwaggerConfig {
 	private ApiInfo metaInfo() {
 		
 		ApiInfo apiInfo = new ApiInfo(
-			"Jogos API Rest",
-			"API Rest de cadastro de jogos",
+			"Topspin API Rest",
+			"API Rest do aplicativo Topspin",
 			"1.0",
 			"Terms of Service",
 			"Topspin",

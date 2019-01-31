@@ -36,6 +36,9 @@ public class Jogo extends AbstractEntity<Long> {
 	@JoinColumn(name="id_adversario")
 	private Usuario adversario;
 	
+	@Transient
+	private String dataJogoFormatada;
+	
 	public Jogo() {}
 
 	public Date getData() {
@@ -100,6 +103,24 @@ public class Jogo extends AbstractEntity<Long> {
 
 	public void setAdversario(Usuario adversario) {
 		this.adversario = adversario;
+	}
+	
+	public String getDataJogoFormatada() {
+		String dt = "";
+		String dt_banco = null;
+		if (getData() != null) {
+			dt_banco = getData().toString();
+		}
+		if (dt_banco != null && !"".equals(dt_banco.toString())) {
+			dt = dt_banco.substring(8) + '/' +
+				 dt_banco.substring(5,7) + '/' +
+				 dt_banco.substring(0,4);
+		}
+		return dt;
+	}
+
+	public void setDataJogoFormatada(String dataJogoFormatada) {
+		this.dataJogoFormatada = dataJogoFormatada;
 	}
 	
 }

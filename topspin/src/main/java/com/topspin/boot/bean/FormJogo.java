@@ -14,6 +14,7 @@ public class FormJogo {
 	private int qtdTieVencidos;
 	private int qtdTiePerdidos;
 	private String ultimosJogos;
+	private String dataJogoFormatada;
 	
 	public FormJogo() {}
 
@@ -111,6 +112,14 @@ public class FormJogo {
 
 	public void setUltimosJogos(String ultimosJogos) {
 		this.ultimosJogos = ultimosJogos;
+	}
+
+	public String getDataJogoFormatada() {
+		return dataJogoFormatada;
+	}
+
+	public void setDataJogoFormatada(String dataJogoFormatada) {
+		this.dataJogoFormatada = dataJogoFormatada;
 	}
 	
 }

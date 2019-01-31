@@ -5,11 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +14,10 @@ import com.topspin.boot.bean.FormCadastroLogin;
 import com.topspin.boot.domain.Acesso;
 import com.topspin.boot.service.AcessoService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value="API de acesso/login.")
 @CrossOrigin
 @RestController
 @RequestMapping(value="/acesso", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -26,26 +26,40 @@ public class AcessoController {
 	@Autowired
 	private AcessoService acessoService;
 
+	@ApiOperation(value="Adiciona um usuário ao sistema.", 
+				  notes="Operação em uso.")
 	@PostMapping(value="/add")
     public ResponseEntity<Boolean> adiciona(@RequestBody FormCadastroLogin formCadastroLogin) {
 		acessoService.salva(formCadastroLogin);
         return new ResponseEntity<Boolean>(HttpStatus.CREATED);
     }
 	
-	@PutMapping(value="/update")
-    public ResponseEntity<Boolean> atualiza(@RequestBody Acesso acesso){
-    	acessoService.atualiza(acesso);
-        return new ResponseEntity<Boolean>(HttpStatus.ACCEPTED);
-    }
-    
-    @PostMapping(value="/existe")
+	@ApiOperation(value="Consulta se usuário está cadastrado no sistema.", 
+				  notes="Operação em uso.")
+	@PostMapping(value="/existe")
     public ResponseEntity<Boolean> isExisteUsuario(@RequestBody Acesso acesso) {
     	
     	boolean isAcesso = this.acessoService.isExisteUsuario(acesso);
         return new ResponseEntity<Boolean>(isAcesso, HttpStatus.OK);	
     }
     
-    //SEM NECESSIDADE - AVALIAR
+	/*
+     * ================================================
+     * OS MÉTODOS ABAIXO NÃO ESTÃO SENDO USADOS.
+     * FORAM FEITOS PARA FINS DE TESTES E APRENDIZADOS.
+     * ================================================
+     */
+	/*
+	@ApiOperation(value="Altera os dados de login de um usuário conforme dados do formulário.", 
+				  notes="Operação não usada.")
+    @PutMapping(value="/update")
+    public ResponseEntity<Boolean> atualiza(@RequestBody Acesso acesso){
+    	acessoService.atualiza(acesso);
+        return new ResponseEntity<Boolean>(HttpStatus.ACCEPTED);
+    }
+    
+	@ApiOperation(value="Consulta um usuário apartir do identificador (id).", 
+			  	  notes="Operação não usada.")
     @GetMapping(value="/{id}")
 	public ResponseEntity<Acesso> getUsuario(@PathVariable("id") Long id) {
 		
@@ -53,11 +67,12 @@ public class AcessoController {
 		return new ResponseEntity<Acesso>(acesso, HttpStatus.OK);	
 	}
     
-    //APENAS ADMINISTRATIVO
+	@ApiOperation(value="Remove um usuário apartir do identificador (id).", 
+			  	  notes="Operação não usada. Operação administrativa.")
     @DeleteMapping(value="/remove/{id}")
     public ResponseEntity<Boolean> remove(@PathVariable Long id){
     	acessoService.exclui(id);
         return new ResponseEntity<Boolean>(HttpStatus.ACCEPTED);
     }
-	
+	*/
 }
