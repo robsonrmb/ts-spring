@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.topspin.boot.bean.FormCadastroLogin;
 import com.topspin.boot.domain.Acesso;
+import com.topspin.boot.error.ResourceNotFoundException;
 import com.topspin.boot.service.AcessoService;
 
 import io.swagger.annotations.Api;
@@ -38,10 +39,15 @@ public class AcessoController {
 				  notes="Operação em uso.")
 	@PostMapping(value="/existe")
     public ResponseEntity<Boolean> isExisteUsuario(@RequestBody Acesso acesso) {
-    	
-    	boolean isAcesso = this.acessoService.isExisteUsuario(acesso);
-        return new ResponseEntity<Boolean>(isAcesso, HttpStatus.OK);	
+    	verificaSeUsuarioExiste(acesso);
+        return new ResponseEntity<Boolean>(true, HttpStatus.OK);	
     }
+	
+	private void verificaSeUsuarioExiste(Acesso acesso) {
+		if (!this.acessoService.isExisteUsuario(acesso)) {
+    		throw new ResourceNotFoundException("Dados inválidos!!!");
+    	}
+	}
     
 	/*
      * ================================================
@@ -54,6 +60,7 @@ public class AcessoController {
 				  notes="Operação não usada.")
     @PutMapping(value="/update")
     public ResponseEntity<Boolean> atualiza(@RequestBody Acesso acesso){
+		verificaSeUsuarioExiste(acesso);
     	acessoService.atualiza(acesso);
         return new ResponseEntity<Boolean>(HttpStatus.ACCEPTED);
     }
@@ -62,8 +69,7 @@ public class AcessoController {
 			  	  notes="Operação não usada.")
     @GetMapping(value="/{id}")
 	public ResponseEntity<Acesso> getUsuario(@PathVariable("id") Long id) {
-		
-    	Acesso acesso = acessoService.buscaPorId(id);
+		Acesso acesso = acessoService.buscaPorId(id);
 		return new ResponseEntity<Acesso>(acesso, HttpStatus.OK);	
 	}
     
