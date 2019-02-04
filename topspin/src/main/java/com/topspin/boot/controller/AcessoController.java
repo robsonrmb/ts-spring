@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.topspin.boot.bean.FormCadastroLogin;
 import com.topspin.boot.domain.Acesso;
-import com.topspin.boot.error.ResourceNotFoundException;
+import com.topspin.boot.error.ResourceBadRequestException;
 import com.topspin.boot.service.AcessoService;
 
 import io.swagger.annotations.Api;
@@ -45,7 +45,7 @@ public class AcessoController {
 	
 	private void verificaSeUsuarioExiste(Acesso acesso) {
 		if (!this.acessoService.isExisteUsuario(acesso)) {
-    		throw new ResourceNotFoundException("Dados inválidos!!!");
+    		throw new ResourceBadRequestException("Dados inválidos!!!");
     	}
 	}
     

@@ -29,7 +29,7 @@ public class ContabilizacaoServiceImpl implements ContabilizacaoService {
 			
 		}else {
 			if ("A".equals(tipo)) {
-				contabilizacao.setQuantidadeAvaliacaoRecusada(1);
+				contabilizacao.setQuantidadeAvaliacaoAceita(1);
 			}else {
 				contabilizacao.setQuantidadeAvaliacaoRecusada(1);
 			}
@@ -39,7 +39,7 @@ public class ContabilizacaoServiceImpl implements ContabilizacaoService {
 
 	private void somarMaisUm(Contabilizacao c, String tipo) {
 		if ("A".equals(tipo)) {
-			c.setQuantidadeAvaliacaoRecusada(c.getQuantidadeAvaliacaoRecusada() + 1);
+			c.setQuantidadeAvaliacaoAceita(c.getQuantidadeAvaliacaoAceita() + 1);
 		}else {
 			c.setQuantidadeAvaliacaoRecusada(c.getQuantidadeAvaliacaoRecusada() + 1);
 		}

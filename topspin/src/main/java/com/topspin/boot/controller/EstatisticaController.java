@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.topspin.boot.bean.FormRespQuantidade;
 import com.topspin.boot.domain.TipoEstatistica;
 import com.topspin.boot.domain.TipoRespostaEstatistica;
+import com.topspin.boot.error.ResourceBadRequestException;
 import com.topspin.boot.service.ContabilizacaoService;
 import com.topspin.boot.service.EstatisticaService;
 import com.topspin.boot.service.TipoEstatisticaService;
@@ -65,17 +66,23 @@ public class EstatisticaController {
 		return new ResponseEntity<FormRespQuantidade>(frq, HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="Lista as estatísticas do usuário por tipo.")
-	@GetMapping(value="usuario/{id}/tipoEstatistica/{tipo}")
-	public ResponseEntity<FormRespQuantidade> getQuantidadeDeSaque(@PathVariable("id") Long id,
-																   @PathVariable("tipo") String tipo) {
+	@ApiOperation(value="Retorna a quantidade de estatísticas do usuário.")
+	@GetMapping(value="/qtd-avaliacoes-aceitas/usuario/{id}")
+	public ResponseEntity<Integer> getQuantidadeDeEstatisticas(@PathVariable("id") Long id) {
 		
 		int qtdAvaliacoesAceita = contabilizacaoService.countContabilizacaoGeralDeAvaliacoesAceitasPorUsuario(id);
 		
-		if (qtdAvaliacoesAceita <= 3) {
-			//TODO retornar uma exceção? Status? Tratar a excessão no frontEnd. 
+		if (qtdAvaliacoesAceita < 3) {
+			throw new ResourceBadRequestException("Para começar a visualizar suas estatísticas técnicas e táticas, você deve possuir pelo menos 3 avaliações aprovadas/aceitas.");
 		}
 		
+		return new ResponseEntity<Integer>(qtdAvaliacoesAceita, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Lista as estatísticas do usuário por tipo.")
+	@GetMapping(value="usuario/{id}/tipoEstatistica/{tipo}")
+	public ResponseEntity<FormRespQuantidade> getQuantidadeDeEstatisticasPorTipo(@PathVariable("id") Long id,
+																   				 @PathVariable("tipo") String tipo) {
 		long valores[] = new long[12];
 		
 		TipoEstatistica te = tipoEstatisticaService.buscaPorNome(tipo);

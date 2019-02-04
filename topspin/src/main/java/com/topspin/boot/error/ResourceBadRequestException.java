@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @SuppressWarnings("serial")
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class ResourceNotFoundException extends RuntimeException {
+public class ResourceBadRequestException extends RuntimeException {
 
-	public ResourceNotFoundException(String message) {
+	public ResourceBadRequestException(String message) {
 		super(message);
 	}
 	
