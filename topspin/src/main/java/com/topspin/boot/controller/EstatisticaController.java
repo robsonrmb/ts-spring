@@ -73,7 +73,7 @@ public class EstatisticaController {
 		int qtdAvaliacoesAceita = contabilizacaoService.countContabilizacaoGeralDeAvaliacoesAceitasPorUsuario(id);
 		
 		if (qtdAvaliacoesAceita < 3) {
-			throw new ResourceBadRequestException("Para começar a visualizar suas estatísticas técnicas e táticas, você deve possuir pelo menos 3 avaliações aprovadas/aceitas.");
+			throw new ResourceBadRequestException("Para começar a visualizar suas estatísticas técnicas e táticas, você deve possuir pelo menos 3 avaliações aceitas.");
 		}
 		
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
