@@ -63,14 +63,34 @@ public class ConviteDaoImpl extends AbstractDao<Convite, Long> implements Convit
 	}
 	
 	@Override
-	public int countPorConvidadoEPendentes(Convite convite) {
-		String query = "SELECT count(c) FROM Convite c where 1=1 and c.status = 'P'";
+	public int countPorConvidadoEStatus(Convite convite) {
+		String query = "SELECT count(c) FROM Convite c where 1=1";
 		if (convite.getConvidado() != null && convite.getConvidado().getId() != 0) {
 			query = query + " and c.convidado.id = :convidado";
+		}
+		if (convite.getStatus() != null) {
+			query = query + " and c.status = :status";
 		}
 		TypedQuery<Long> q = getEntityManager().createQuery(query, Long.class); 
 		if (convite.getConvidado() != null && convite.getConvidado().getId() != 0) {
 			q.setParameter("convidado", convite.getConvidado().getId());
+		}
+		if (convite.getStatus() != null) {
+			q.setParameter("status", convite.getStatus());
+		}
+		long valor = q.getSingleResult();
+		return Integer.parseInt(valor+"");
+	}
+	
+	@Override
+	public int countConvitesEnviadosPorUsuario(Convite convite) {
+		String query = "SELECT count(c) FROM Convite c where 1=1";
+		if (convite.getUsuario() != null && convite.getUsuario().getId() != 0) {
+			query = query + " and c.usuario.id = :usuario";
+		}
+		TypedQuery<Long> q = getEntityManager().createQuery(query, Long.class); 
+		if (convite.getUsuario() != null && convite.getUsuario().getId() != 0) {
+			q.setParameter("usuario", convite.getUsuario().getId());
 		}
 		long valor = q.getSingleResult();
 		return Integer.parseInt(valor+"");

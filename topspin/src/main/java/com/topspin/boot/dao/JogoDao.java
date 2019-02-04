@@ -20,4 +20,6 @@ public interface JogoDao {
 
 	List<Jogo> listaUltimosJogosPorUsuario(Long id, int qtd);
 
+	int countJogosRealizadoPorUsuario(Jogo jogo);
+
 }

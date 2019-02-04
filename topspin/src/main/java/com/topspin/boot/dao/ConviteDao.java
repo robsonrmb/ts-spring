@@ -22,6 +22,8 @@ public interface ConviteDao {
 
 	List<Convite> listaPorConvidadoENaoPendentes(Convite convite);
 	
-	int countPorConvidadoEPendentes(Convite convite);
+	int countPorConvidadoEStatus(Convite convite);
+
+	int countConvitesEnviadosPorUsuario(Convite convite);
 
 }

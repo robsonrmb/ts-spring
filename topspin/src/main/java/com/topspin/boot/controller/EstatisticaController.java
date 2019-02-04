@@ -39,7 +39,7 @@ public class EstatisticaController {
 	private ContabilizacaoService contabilizacaoService;
 	
 	@ApiOperation(value="Lista as estatísticas de vitórias e derrotas do usuário.")
-	@GetMapping(value="vitoriasederrotas/usuario/{id}")
+	@GetMapping(value="/vitoriasederrotas/usuario/{id}")
 	public ResponseEntity<FormRespQuantidade> getQuantidadeDeVitorias(@PathVariable("id") Long id) {
 		
 		int qtdVitoria = estatisticaService.buscaEstatistica(id, "VITORIA");
@@ -53,7 +53,7 @@ public class EstatisticaController {
 	}
 	
 	@ApiOperation(value="Lista as estatísticas de tiebreaks do usuário.")
-	@GetMapping(value="tiebreaks/usuario/{id}")
+	@GetMapping(value="/tiebreaks/usuario/{id}")
 	public ResponseEntity<FormRespQuantidade> getQuantidadeDeTieBreaksVencidos(@PathVariable("id") Long id) {
 		
 		int qtdVencidos = estatisticaService.buscaEstatistica(id, "TIEBREAKVENCIDO");
@@ -67,8 +67,8 @@ public class EstatisticaController {
 	}
 	
 	@ApiOperation(value="Retorna a quantidade de estatísticas do usuário.")
-	@GetMapping(value="/qtd-avaliacoes-aceitas/usuario/{id}")
-	public ResponseEntity<Integer> getQuantidadeDeEstatisticas(@PathVariable("id") Long id) {
+	@GetMapping(value="/visualiza-estatisticas/usuario/{id}")
+	public ResponseEntity<Boolean> getQuantidadeDeEstatisticas(@PathVariable("id") Long id) {
 		
 		int qtdAvaliacoesAceita = contabilizacaoService.countContabilizacaoGeralDeAvaliacoesAceitasPorUsuario(id);
 		
@@ -76,11 +76,11 @@ public class EstatisticaController {
 			throw new ResourceBadRequestException("Para começar a visualizar suas estatísticas técnicas e táticas, você deve possuir pelo menos 3 avaliações aprovadas/aceitas.");
 		}
 		
-		return new ResponseEntity<Integer>(qtdAvaliacoesAceita, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 	
 	@ApiOperation(value="Lista as estatísticas do usuário por tipo.")
-	@GetMapping(value="usuario/{id}/tipoEstatistica/{tipo}")
+	@GetMapping(value="/usuario/{id}/tipoEstatistica/{tipo}")
 	public ResponseEntity<FormRespQuantidade> getQuantidadeDeEstatisticasPorTipo(@PathVariable("id") Long id,
 																   				 @PathVariable("tipo") String tipo) {
 		long valores[] = new long[12];
@@ -105,7 +105,7 @@ public class EstatisticaController {
 	}
 	
 	@ApiOperation(value="Busca a quantidade de avaliações aceitas do usuário.")
-	@GetMapping(value="qtdAvaliacoesAceitas/usuario/{id}")
+	@GetMapping(value="/qtd-avaliacoes-aceitas/usuario/{id}")
 	public ResponseEntity<FormRespQuantidade> getQuantidadeDeAvaliacoesAceitas(@PathVariable("id") Long id) {
 		
 		int qtdAvaliacoesAceitas = contabilizacaoService.countContabilizacaoGeralDeAvaliacoesAceitasPorUsuario(id);
@@ -117,13 +117,61 @@ public class EstatisticaController {
 	}
 	
 	@ApiOperation(value="Busca a quantidade de avaliações recusadas do usuário.")
-	@GetMapping(value="qtdAvaliacoesRecusadas/usuario/{id}")
+	@GetMapping(value="/qtd-avaliacoes-recusadas/usuario/{id}")
 	public ResponseEntity<FormRespQuantidade> getQuantidadeDeAvaliacoesRecusadas(@PathVariable("id") Long id) {
 		
 		int qtdAvaliacoesRecusadas = contabilizacaoService.countContabilizacaoGeralDeAvaliacoesRecusadasPorUsuario(id);
 		
 		FormRespQuantidade frq = new FormRespQuantidade();
 		frq.setValor1(qtdAvaliacoesRecusadas);
+		
+		return new ResponseEntity<FormRespQuantidade>(frq, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Busca a quantidade de convite recebidos aceitos do usuário.")
+	@GetMapping(value="/qtd-convites-recebidos-aceitos/usuario/{id}")
+	public ResponseEntity<FormRespQuantidade> getQuantidadeDeConvitesRecebidosAceitos(@PathVariable("id") Long id) {
+		
+		int qtdConvitesRecebidosAceitos = contabilizacaoService.countContabilizacaoGeralDeConvitesRecebidosAceitosPorUsuario(id);
+		
+		FormRespQuantidade frq = new FormRespQuantidade();
+		frq.setValor1(qtdConvitesRecebidosAceitos);
+		
+		return new ResponseEntity<FormRespQuantidade>(frq, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Busca a quantidade de convites recebidos recusados do usuário.")
+	@GetMapping(value="/qtd-convites-recebidos-recusados/usuario/{id}")
+	public ResponseEntity<FormRespQuantidade> getQuantidadeDeConvitesRecebidosRecusados(@PathVariable("id") Long id) {
+		
+		int qtdConvitesRecebidosRecusados = contabilizacaoService.countContabilizacaoGeralDeConvitesRecebidosRecusadosPorUsuario(id);
+		
+		FormRespQuantidade frq = new FormRespQuantidade();
+		frq.setValor1(qtdConvitesRecebidosRecusados);
+		
+		return new ResponseEntity<FormRespQuantidade>(frq, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Busca a quantidade de convites enviados do usuário.")
+	@GetMapping(value="/qtd-convites-enviados/usuario/{id}")
+	public ResponseEntity<FormRespQuantidade> getQuantidadeDeConvitesEnviados(@PathVariable("id") Long id) {
+		
+		int qtdConvitesEnviados = contabilizacaoService.countContabilizacaoGeralDeConvitesEnviadosPorUsuario(id);
+		
+		FormRespQuantidade frq = new FormRespQuantidade();
+		frq.setValor1(qtdConvitesEnviados);
+		
+		return new ResponseEntity<FormRespQuantidade>(frq, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value="Busca a quantidade de jogos realizados do usuário.")
+	@GetMapping(value="/qtd-jogos-realizados/usuario/{id}")
+	public ResponseEntity<FormRespQuantidade> getQuantidadeDeJogosRealizados(@PathVariable("id") Long id) {
+		
+		int qtdJogosRealizados = contabilizacaoService.countContabilizacaoGeralDeJogosRealizadosPorUsuario(id);
+		
+		FormRespQuantidade frq = new FormRespQuantidade();
+		frq.setValor1(qtdJogosRealizados);
 		
 		return new ResponseEntity<FormRespQuantidade>(frq, HttpStatus.OK);
 	}

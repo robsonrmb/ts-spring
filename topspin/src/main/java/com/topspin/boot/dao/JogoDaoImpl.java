@@ -39,4 +39,18 @@ public class JogoDaoImpl extends AbstractDao<Jogo, Long> implements JogoDao {
 		return q.getResultList();
 	}
 
+	@Override
+	public int countJogosRealizadoPorUsuario(Jogo jogo) {
+		String query = "SELECT count(j) FROM Jogo j where 1=1";
+		if (jogo.getUsuario() != null && jogo.getUsuario().getId() != 0) {
+			query = query + " and j.usuario.id = :usuario";
+		}
+		TypedQuery<Long> q = getEntityManager().createQuery(query, Long.class); 
+		if (jogo.getUsuario() != null && jogo.getUsuario().getId() != 0) {
+			q.setParameter("usuario", jogo.getUsuario().getId());
+		}
+		long valor = q.getSingleResult();
+		return Integer.parseInt(valor+"");
+	}
+
 }

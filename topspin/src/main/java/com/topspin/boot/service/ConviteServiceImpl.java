@@ -87,7 +87,8 @@ public class ConviteServiceImpl implements ConviteService {
 	
 	@Override
 	public int countPorConvidadoEPendentes(Convite convite) {
-		return conviteDao.countPorConvidadoEPendentes(convite);
+		convite.setStatus("P");
+		return conviteDao.countPorConvidadoEStatus(convite);
 	}
 
 }

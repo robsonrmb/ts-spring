@@ -7,13 +7,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.topspin.boot.dao.ContabilizacaoDao;
+import com.topspin.boot.dao.ConviteDao;
+import com.topspin.boot.dao.JogoDao;
 import com.topspin.boot.domain.Contabilizacao;
+import com.topspin.boot.domain.Convite;
+import com.topspin.boot.domain.Jogo;
+import com.topspin.boot.domain.Usuario;
 
 @Service @Transactional(readOnly = false)
 public class ContabilizacaoServiceImpl implements ContabilizacaoService {
 
 	@Autowired
 	private ContabilizacaoDao contabilizacaoDao;
+	
+	@Autowired
+	private ConviteDao conviteDao;
+	
+	@Autowired
+	private JogoDao jogoDao;
 	
 	@Override
 	public void salva(Contabilizacao contabilizacao, String tipo) {
@@ -69,6 +80,52 @@ public class ContabilizacaoServiceImpl implements ContabilizacaoService {
 			contador = contador + c.getQuantidadeAvaliacaoRecusada();
 		}
 		return contador;
+	}
+
+	@Override
+	public int countContabilizacaoGeralDeConvitesRecebidosAceitosPorUsuario(Long id) {
+		Usuario usuario = new Usuario();
+		usuario.setId(id);
+		
+		Convite convite = new Convite();
+		convite.setConvidado(usuario);
+		convite.setStatus("A");
+		int qtd = conviteDao.countPorConvidadoEStatus(convite);
+		return qtd;
+	}
+
+	@Override
+	public int countContabilizacaoGeralDeConvitesRecebidosRecusadosPorUsuario(Long id) {
+		Usuario usuario = new Usuario();
+		usuario.setId(id);
+		
+		Convite convite = new Convite();
+		convite.setConvidado(usuario);
+		convite.setStatus("R");
+		int qtd = conviteDao.countPorConvidadoEStatus(convite);
+		return qtd;
+	}
+
+	@Override
+	public int countContabilizacaoGeralDeConvitesEnviadosPorUsuario(Long id) {
+		Usuario usuario = new Usuario();
+		usuario.setId(id);
+		
+		Convite convite = new Convite();
+		convite.setUsuario(usuario);
+		int qtd = conviteDao.countConvitesEnviadosPorUsuario(convite);
+		return qtd;
+	}
+
+	@Override
+	public int countContabilizacaoGeralDeJogosRealizadosPorUsuario(Long id) {
+		Usuario usuario = new Usuario();
+		usuario.setId(id);
+		
+		Jogo jogo = new Jogo();
+		jogo.setUsuario(usuario);
+		int qtd = jogoDao.countJogosRealizadoPorUsuario(jogo);
+		return qtd;
 	}
 
 }
