@@ -14,6 +14,10 @@ public class TipoAvaliacao extends AbstractEntity<Long> {
 	@Column(name = "nome", nullable = false, unique = true, length = 60)
 	private String nome;
 	
+	@ManyToOne
+	@JoinColumn(name="id_area_avaliacao", nullable = false)
+	private AreaAvaliacao areaAvaliacao;
+	
 	@ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(name="TIPOAVALIACAO_TIPORESPOSTAAVALIACAO", 
                joinColumns=  @JoinColumn( name = "tipoavaliacao_id"), 
