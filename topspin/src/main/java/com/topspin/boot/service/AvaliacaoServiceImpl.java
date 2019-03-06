@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.topspin.boot.bean.FormAvaliacao;
+import com.topspin.boot.bean.FormAvaliacaoResult;
 import com.topspin.boot.dao.AvaliacaoDao;
 import com.topspin.boot.dao.AvaliacaoRespostasDao;
 import com.topspin.boot.dao.TipoAvaliacaoDao;
@@ -29,6 +30,9 @@ public class AvaliacaoServiceImpl implements AvaliacaoService {
 
 	@Autowired
 	private AvaliacaoDao avaliacaoDao;
+	
+	@Autowired
+	private TipoAvaliacaoService tipoAvaliacaoService;
 	
 	@Autowired
 	private AvaliacaoRespostasDao avaliacaoRespostasDao;
@@ -118,6 +122,29 @@ public class AvaliacaoServiceImpl implements AvaliacaoService {
 		ar = new AvaliacaoRespostas(avaliacao, tipoAvaliacao.getId(), tipoResposta.getId());
 		avaliacaoRespostasDao.save(ar);
 		
+	}
+
+	@Override
+	public void salvaRespostas(FormAvaliacaoResult formAvaliacaoResult) {
+		Usuario usuario = usuarioDao.findById(formAvaliacaoResult.getIdUsuario());
+		Usuario avaliado = usuarioDao.findById(formAvaliacaoResult.getIdAvaliado());
+		
+		Avaliacao avaliacao = new Avaliacao();
+		avaliacao.setAvaliador(usuario);
+		avaliacao.setAvaliado(avaliado);
+		
+		avaliacao.setData(new Date());
+		avaliacao.setStatus("P");
+		avaliacaoDao.save(avaliacao);
+		
+		for (String str: formAvaliacaoResult.getRespostas()) {
+			String resposta[] = new String[2];
+			resposta = str.split("#");
+			TipoAvaliacao tipoAvaliacao = tipoAvaliacaoService.buscaPorId(Long.parseLong(resposta[0]));
+			TipoRespostaAvaliacao tipoResposta = tipoRespostaAvaliacaoDao.findById(Long.parseLong(resposta[1]));
+			AvaliacaoRespostas ar = new AvaliacaoRespostas(avaliacao, Long.parseLong(resposta[0]), tipoResposta.getId());
+			avaliacaoRespostasDao.save(ar);
+		}
 	}
 
 	@Override

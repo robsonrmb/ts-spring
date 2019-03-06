@@ -14,6 +14,11 @@ public class TipoAvaliacaoServiceImpl implements TipoAvaliacaoService {
 	private TipoAvaliacaoDao tipoAvaliacaoDao;
 	
 	@Override @Transactional(readOnly = true)
+	public TipoAvaliacao buscaPorId(Long id) {
+		return tipoAvaliacaoDao.findById(id);
+	}
+	
+	@Override @Transactional(readOnly = true)
 	public TipoAvaliacao buscaPorNome(String nome) {
 		return tipoAvaliacaoDao.buscaPorNome(nome);
 	}

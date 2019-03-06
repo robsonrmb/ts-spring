@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.topspin.boot.bean.FormAvaliacao;
+import com.topspin.boot.bean.FormAvaliacaoResult;
 import com.topspin.boot.bean.Quantidade;
 import com.topspin.boot.domain.Avaliacao;
 import com.topspin.boot.domain.Usuario;
@@ -40,6 +41,13 @@ public class AvaliacaoController {
 	@PostMapping(value="/add")
     public ResponseEntity<Void> adiciona(@RequestBody FormAvaliacao formAvaliacao){
 		avaliacaoService.salva(formAvaliacao);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+	
+	@ApiOperation(value="Adiciona uma avaliação(respotas dinamica) a um usuário.")
+	@PostMapping(value="/add-respostas")
+    public ResponseEntity<Void> adicionaResposta(@RequestBody FormAvaliacaoResult formAvaliacaoResult){
+		avaliacaoService.salvaRespostas(formAvaliacaoResult);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 	

@@ -6,4 +6,6 @@ public interface TipoAvaliacaoService {
 
 	TipoAvaliacao buscaPorNome(String nome);
 	
+	TipoAvaliacao buscaPorId(Long id);
+	
 }
