@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.topspin.boot.bean.FormUsuarioAmigo;
 import com.topspin.boot.domain.Usuario;
+import com.topspin.boot.exception.ApiNegocioRuntimeException;
 import com.topspin.boot.service.AmigoService;
 
 import io.swagger.annotations.Api;
@@ -33,7 +34,10 @@ public class AmigoController {
 	@ApiOperation(value="Lista os amigos de um usuário.")
 	@GetMapping(value="/{id}")
     public ResponseEntity<List<Usuario>> amigosPorUsuario(@PathVariable long id) {
-    	List<Usuario> listaAmigos = this.amigoService.listaAmigos(id);
+		if (id == 0) {
+  			throw new ApiNegocioRuntimeException("Usuário não informado!!!", HttpStatus.BAD_REQUEST);
+  		}
+		List<Usuario> listaAmigos = this.amigoService.listaAmigos(id);
         return new ResponseEntity<List<Usuario>>(listaAmigos, HttpStatus.OK);	
     }
 	
