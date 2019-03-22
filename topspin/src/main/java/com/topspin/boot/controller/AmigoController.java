@@ -1,5 +1,6 @@
 package com.topspin.boot.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -37,7 +38,11 @@ public class AmigoController {
 	@GetMapping(value="/{id}")
     public ResponseEntity<List<Usuario>> amigosPorUsuario(@PathVariable long id) {
 		if (id == 0) {
-  			throw new ApiNegocioRuntimeException("Usuário não informado!!!", HttpStatus.BAD_REQUEST);
+			List<String> listaDeMensagens = new ArrayList<String>();
+			listaDeMensagens.add("Mensagem 1.");
+			listaDeMensagens.add("Mensagem 2.");
+	    	
+  			throw new ApiNegocioRuntimeException("Usuário não informado!!!", HttpStatus.BAD_REQUEST, listaDeMensagens);
   		}
 		List<Usuario> listaAmigos = this.amigoService.listaAmigos(id);
         return new ResponseEntity<List<Usuario>>(listaAmigos, HttpStatus.OK);	

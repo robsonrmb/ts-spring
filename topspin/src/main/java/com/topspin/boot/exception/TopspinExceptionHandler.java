@@ -1,5 +1,6 @@
 package com.topspin.boot.exception;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,9 +32,9 @@ public class TopspinExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({ ApiNegocioRuntimeException.class })
-    protected ResponseEntity<Object> handleApiNegocioRuntimeException(ApiNegocioRuntimeException exc, WebRequest request) {
+    protected ResponseEntity<Object> handleApiNegocioRuntimeException(ApiNegocioRuntimeException exc, WebRequest request) { 
     	HttpStatus status = exc.getStatus() == null ? HttpStatus.BAD_REQUEST : exc.getStatus();
-    	MessageResponse response = obtemMessageResponse(exc, request, status, (List<String>)null, null);
+    	MessageResponse response = obtemMessageResponse(exc, request, status, exc.getListaDeMensagens(), null); 
 		return handleExceptionInternal(exc, response, new HttpHeaders(), status, request);
     }
     
@@ -48,7 +49,7 @@ public class TopspinExceptionHandler extends ResponseEntityExceptionHandler {
     
     @ExceptionHandler({ Exception.class })
     protected ResponseEntity<Object> handleDefault(Exception exc, WebRequest request) {
-    	MessageResponse response = obtemMessageResponse(exc, request, HttpStatus.BAD_REQUEST, (List<String>)null, null);
+    	MessageResponse response = obtemMessageResponse(exc, request, HttpStatus.INTERNAL_SERVER_ERROR, (List<String>)null, null);
         return handleExceptionInternal(exc, response, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
     
