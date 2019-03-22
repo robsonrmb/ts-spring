@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class MessageResponse {
 	
 	private List<String> msgs;
+	private String descricao;
 	private Date date;
     protected String causa;
     protected String path;
@@ -78,9 +79,16 @@ public class MessageResponse {
 		this.status = status;
 	}
 	
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
 	@Override
 	public String toString() {
-		return "MessageResponse [msgs=" + msgs + ", date=" + date + ", causa=" + causa
+		return "MessageResponse [msgs=" + msgs + ", date=" + date + ", descricao=" + descricao + ", causa=" + causa
 				+ ", path=" + path + ", user=" + user + ", stackTrace=" + stackTrace + ", status=" + status + "]";
 	}
 

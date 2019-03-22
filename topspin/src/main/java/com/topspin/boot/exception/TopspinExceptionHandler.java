@@ -27,14 +27,14 @@ public class TopspinExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({ ApiTecnicaRuntimeException.class })
     protected ResponseEntity<Object> handleApiTecnicaRuntimeException(ApiTecnicaRuntimeException exc, WebRequest request) {    
     	HttpStatus status = exc.getStatus() == null ? HttpStatus.INTERNAL_SERVER_ERROR : exc.getStatus();	
-    	MessageResponse response = obtemMessageResponse(exc, request, status, (List<String>)null, null);
+    	MessageResponse response = obtemMessageResponse(exc, request, status, (List<String>)null, null, null);
 		return handleExceptionInternal(exc, response, new HttpHeaders(), status, request);
     }
 
     @ExceptionHandler({ ApiNegocioRuntimeException.class })
     protected ResponseEntity<Object> handleApiNegocioRuntimeException(ApiNegocioRuntimeException exc, WebRequest request) { 
     	HttpStatus status = exc.getStatus() == null ? HttpStatus.BAD_REQUEST : exc.getStatus();
-    	MessageResponse response = obtemMessageResponse(exc, request, status, exc.getListaDeMensagens(), null); 
+    	MessageResponse response = obtemMessageResponse(exc, request, status, (List<String>)null, null, exc.getDescricao()); 
 		return handleExceptionInternal(exc, response, new HttpHeaders(), status, request);
     }
     
@@ -49,15 +49,16 @@ public class TopspinExceptionHandler extends ResponseEntityExceptionHandler {
     
     @ExceptionHandler({ Exception.class })
     protected ResponseEntity<Object> handleDefault(Exception exc, WebRequest request) {
-    	MessageResponse response = obtemMessageResponse(exc, request, HttpStatus.INTERNAL_SERVER_ERROR, (List<String>)null, null);
+    	MessageResponse response = obtemMessageResponse(exc, request, HttpStatus.INTERNAL_SERVER_ERROR, (List<String>)null, null, null);
         return handleExceptionInternal(exc, response, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
     
     //Métodos privados de apoio
-    protected MessageResponse obtemMessageResponse(Exception exc, WebRequest request, HttpStatus status, List<String> msgs, String causa) {
+    protected MessageResponse obtemMessageResponse(Exception exc, WebRequest request, HttpStatus status, List<String> msgs, String causa, String descricao) {
 		
     	MessageResponse messageResponse = new MessageResponse();
     	messageResponse.setMsgs(msgs);
+    	messageResponse.setDescricao(descricao);
     	messageResponse.setDate(new Date());
     	messageResponse.setCausa(causa);
     	if (causa == null) {

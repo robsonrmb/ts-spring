@@ -38,11 +38,7 @@ public class AmigoController {
 	@GetMapping(value="/{id}")
     public ResponseEntity<List<Usuario>> amigosPorUsuario(@PathVariable long id) {
 		if (id == 0) {
-			List<String> listaDeMensagens = new ArrayList<String>();
-			listaDeMensagens.add("Mensagem 1.");
-			listaDeMensagens.add("Mensagem 2.");
-	    	
-  			throw new ApiNegocioRuntimeException("Usuário não informado!!!", HttpStatus.BAD_REQUEST, listaDeMensagens);
+			throw new ApiNegocioRuntimeException("Usuário não informado!!!", HttpStatus.BAD_REQUEST, "Informe um usuário para realizar a pesquisa.");
   		}
 		List<Usuario> listaAmigos = this.amigoService.listaAmigos(id);
         return new ResponseEntity<List<Usuario>>(listaAmigos, HttpStatus.OK);	

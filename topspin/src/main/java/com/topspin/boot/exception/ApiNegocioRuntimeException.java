@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 public class ApiNegocioRuntimeException extends RuntimeException {
 		
 	private HttpStatus status;
-	private List<String> listaDeMensagens;
+	private String descricao;
 
 	public ApiNegocioRuntimeException() {
 		super();
@@ -31,15 +31,15 @@ public class ApiNegocioRuntimeException extends RuntimeException {
 		super(message);
 		this.status = status;
 	}
-	public ApiNegocioRuntimeException(String message, HttpStatus status, List<String> listaDeMensagens) {
+	public ApiNegocioRuntimeException(String message, HttpStatus status, String descricao) {
 		super(message);
 		this.status = status;
-		this.listaDeMensagens = listaDeMensagens;
+		this.descricao = descricao;
 	}
-	public ApiNegocioRuntimeException(String message, HttpStatus status, List<String> listaDeMensagens, Object... args) {
+	public ApiNegocioRuntimeException(String message, HttpStatus status, String descricao, Object... args) {
 		super(MessageFormat.format(message, args));
 		this.status = status;
-		this.listaDeMensagens = listaDeMensagens;
+		this.descricao = descricao;
 	}	
 	
 	//métodos acessores
@@ -50,12 +50,12 @@ public class ApiNegocioRuntimeException extends RuntimeException {
 		this.status = status;
 	}
 
-	public List<String> getListaDeMensagens() {
-		return listaDeMensagens;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setListaDeMensagens(List<String> listaDeMensagens) {
-		this.listaDeMensagens = listaDeMensagens;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 }
