@@ -2,6 +2,8 @@ package com.topspin.boot.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,7 +45,7 @@ public class AmigoController {
 	
 	@ApiOperation(value="Adiciona um amigo para um usuário.")
 	@PostMapping(value="/add")
-	public ResponseEntity<?> adiciona(@RequestBody FormUsuarioAmigo formUsuarioAmigo) {
+	public ResponseEntity<?> adiciona(@RequestBody @Valid FormUsuarioAmigo formUsuarioAmigo) {
 		amigoService.salva(formUsuarioAmigo);
 	    return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}

@@ -1,4 +1,4 @@
-package com.topspin.boot.exception;
+package com.topspin.boot.exception.model;
 
 import java.util.ArrayList;
 import java.util.Date;

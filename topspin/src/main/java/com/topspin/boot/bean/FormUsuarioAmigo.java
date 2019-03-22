@@ -1,9 +1,13 @@
 package com.topspin.boot.bean;
 
+import javax.validation.constraints.NotBlank;
+
 public class FormUsuarioAmigo {
 
 	private long id;
+	@NotBlank
 	private long idUsuario;
+	@NotBlank
 	private long idAmigo;
 	
 	public FormUsuarioAmigo() {}

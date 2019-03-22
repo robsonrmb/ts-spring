@@ -2,15 +2,21 @@ package com.topspin.boot.exception;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import com.topspin.boot.exception.model.ErrorResponse;
+import com.topspin.boot.exception.model.ErrorResponseObject;
+import com.topspin.boot.exception.model.MessageResponse;
 
 @ControllerAdvice
 public class TopspinExceptionHandler extends ResponseEntityExceptionHandler {
@@ -31,6 +37,20 @@ public class TopspinExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(exc, response, new HttpHeaders(), status, request);
     }
     
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, 
+                                                                  HttpStatus status, WebRequest request) {
+        //return super.handleMethodArgumentNotValid(ex, headers, status, request);
+    	List<ErrorResponseObject> errors = getErrors(ex);
+    	ErrorResponse errorResponse = getErrorResponse(ex, status, errors);
+    	return new ResponseEntity<>(errorResponse, status);
+    }
+    
+    @ExceptionHandler({ Exception.class })
+    protected ResponseEntity<Object> handleDefault(Exception exc, WebRequest request) {
+    	MessageResponse response = obtemMessageResponse(exc, request, HttpStatus.BAD_REQUEST, (List<String>)null, null);
+        return handleExceptionInternal(exc, response, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
     
     //Métodos privados de apoio
     protected MessageResponse obtemMessageResponse(Exception exc, WebRequest request, HttpStatus status, List<String> msgs, String causa) {
@@ -50,56 +70,17 @@ public class TopspinExceptionHandler extends ResponseEntityExceptionHandler {
     	messageResponse.setStatus(status);
     	return messageResponse;
     	
-    	/*
-    	MessageResponse result = new MessageResponse();  	
-		String user = null;
-		String path = null;
-		if (request != null) {
-			Principal userPrincipal = request.getUserPrincipal();	//TODO usar credencial
-			if (userPrincipal != null) {
-				user = userPrincipal.getName();
-			}
-			path = request.getDescription(false);
-		}
-				
-		if (rootCauseMessage == null) {
-			rootCauseMessage = ExceptionUtils.getRootCauseMessage(exc); 
-		}
-		if (msgs == null || msgs.size() == 0) {
-			String msg = null;
-			if (rootCauseMessage != null) {
-				int indexOf = rootCauseMessage.indexOf(":");
-			    int length = rootCauseMessage.length();
-				if (indexOf > 0 && length > 2) {
-					msg = rootCauseMessage.substring(indexOf + 2, length);
-			    }
-			}	
-			if (msg == null || msg.trim().length() == 0) {
-				msg = rootCauseMessage;
-			}
-			result.addMensagem(msg);
-		} else {
-			result.setMsgs(msgs);			
-		}
-		   
-		result.setCausa(rootCauseMessage);	
-		String stack = ExceptionUtils.getStackTrace(exc); // NÃO FAZER PARA PRODUCÇÃO
-		result.setStackTrace(stack);
-
-		result.setStatus(status);
-		result.setUser(user);
-		result.setPath(path);
-		result.setDate(LocalDateTime.now());
-
-		
-		if (status.value() >= 500) {
-			log.error(stack);
-			//emailService.enviaEmail(result);
-		} else if (status.value() >= 400) {
-			log.error(result.getMsgs().toString());
-		}
-		return result;
-		*/
 	}
+    
+    private List<ErrorResponseObject> getErrors(MethodArgumentNotValidException ex) {
+        return ex.getBindingResult().getFieldErrors().stream()
+        		.map(error -> new ErrorResponseObject(error.getDefaultMessage(), error.getField(), error.getRejectedValue()))
+                .collect(Collectors.toList());
+    }
+    
+    private ErrorResponse getErrorResponse(MethodArgumentNotValidException ex, HttpStatus status, List<ErrorResponseObject> errors) {
+        return new ErrorResponse("Requisição possui campos inválidos", status.value(),
+                status.getReasonPhrase(), ex.getBindingResult().getObjectName(), errors);
+    }
 
 }
