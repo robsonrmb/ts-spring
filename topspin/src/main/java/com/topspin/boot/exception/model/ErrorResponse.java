@@ -13,7 +13,6 @@ public class ErrorResponse {
     
 	public ErrorResponse() {}
 	public ErrorResponse(String message, int code, String status, String objectName, List<ErrorResponseObject> errors) {
-		super();
 		this.message = message;
 		this.code = code;
 		this.status = status;
