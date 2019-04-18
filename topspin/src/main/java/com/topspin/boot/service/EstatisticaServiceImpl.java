@@ -11,19 +11,19 @@ import com.topspin.boot.domain.Estatistica;
 import com.topspin.boot.domain.TipoEstatistica;
 import com.topspin.boot.domain.Usuario;
 
-@Service @Transactional(readOnly = false)
-public class EstatisticaServiceImpl implements EstatisticaService {
+@Service 
+@Transactional(readOnly = false)
+public class EstatisticaServiceImpl {
 
 	@Autowired
 	private EstatisticaDao estatisticaDao;
 	
 	@Autowired
-	private TipoEstatisticaService tipoEstatisticaService;
+	private TipoEstatisticaServiceImpl tipoEstatisticaService;
 	
 	@Autowired
-	private UsuarioService usuarioService;
+	private UsuarioServiceImpl usuarioService;
 	
-	@Override
 	public void salva(Estatistica estatistica) {
 		
 		List<Estatistica> listaDeEstatistica = estatisticaDao
@@ -44,7 +44,6 @@ public class EstatisticaServiceImpl implements EstatisticaService {
 		e.setQuantidade(e.getQuantidade() + quantidade);
 	}
 
-	@Override
 	public int buscaEstatistica(Long idUsuario, String tipoDaEstatistica) {
 		
 		Usuario usuario = usuarioService.buscaPorId(idUsuario);
@@ -68,7 +67,6 @@ public class EstatisticaServiceImpl implements EstatisticaService {
 		return quantidade;
 	}
 	
-	@Override
 	public int buscaEstatistica(Long idUsuario, long idTipoEstatistica, long idTipoResposta) {
 		
 		Usuario usuario = usuarioService.buscaPorId(idUsuario);

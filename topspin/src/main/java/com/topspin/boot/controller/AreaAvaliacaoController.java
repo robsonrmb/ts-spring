@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.topspin.boot.domain.AreaAvaliacao;
-import com.topspin.boot.service.AreaAvaliacaoService;
+import com.topspin.boot.service.AreaAvaliacaoServiceImpl;
 
 import io.swagger.annotations.Api;
 
@@ -23,7 +23,7 @@ import io.swagger.annotations.Api;
 public class AreaAvaliacaoController {
 	
 	@Autowired
-	private AreaAvaliacaoService areaAvaliacaoService;
+	private AreaAvaliacaoServiceImpl areaAvaliacaoService;
 	
 	@GetMapping(value="/ativas")
 	public ResponseEntity<List<AreaAvaliacao>> getAreaAvaliacoes() {

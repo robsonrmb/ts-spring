@@ -7,18 +7,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.topspin.boot.dao.TipoAvaliacaoDao;
 import com.topspin.boot.domain.TipoAvaliacao;
 
-@Service @Transactional(readOnly = false)
-public class TipoAvaliacaoServiceImpl implements TipoAvaliacaoService {
+@Service 
+@Transactional(readOnly = false)
+public class TipoAvaliacaoServiceImpl {
 
 	@Autowired
 	private TipoAvaliacaoDao tipoAvaliacaoDao;
 	
-	@Override @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 	public TipoAvaliacao buscaPorId(Long id) {
 		return tipoAvaliacaoDao.findById(id);
 	}
 	
-	@Override @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 	public TipoAvaliacao buscaPorNome(String nome) {
 		return tipoAvaliacaoDao.buscaPorNome(nome);
 	}

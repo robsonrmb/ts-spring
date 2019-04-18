@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.topspin.boot.domain.Usuario;
-import com.topspin.boot.service.UsuarioService;
+import com.topspin.boot.service.UsuarioServiceImpl;
 
 @CrossOrigin()
 @RestController
@@ -26,7 +26,7 @@ import com.topspin.boot.service.UsuarioService;
 public class UsuarioController {
 	
 	@Autowired
-	private UsuarioService usuarioService;
+	private UsuarioServiceImpl usuarioService;
 
 	@GetMapping
 	public ResponseEntity<List<Usuario>> getListaTodos() {

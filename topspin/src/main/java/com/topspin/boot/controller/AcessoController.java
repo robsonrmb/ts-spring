@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.topspin.boot.bean.FormCadastroLogin;
 import com.topspin.boot.domain.Acesso;
 import com.topspin.boot.error.ResourceBadRequestException;
-import com.topspin.boot.service.AcessoService;
+import com.topspin.boot.service.AcessoServiceImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiOperation;
 public class AcessoController {
 	
 	@Autowired
-	private AcessoService acessoService;
+	private AcessoServiceImpl acessoService;
 
 	@ApiOperation(value="Adiciona um usuário ao sistema.", 
 				  notes="Operação em uso.")

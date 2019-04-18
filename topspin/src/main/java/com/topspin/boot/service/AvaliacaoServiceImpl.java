@@ -26,13 +26,13 @@ import com.topspin.boot.domain.TipoRespostaEstatistica;
 import com.topspin.boot.domain.Usuario;
 
 @Service @Transactional(readOnly = false)
-public class AvaliacaoServiceImpl implements AvaliacaoService {
+public class AvaliacaoServiceImpl {
 
 	@Autowired
 	private AvaliacaoDao avaliacaoDao;
 	
 	@Autowired
-	private TipoAvaliacaoService tipoAvaliacaoService;
+	private TipoAvaliacaoServiceImpl tipoAvaliacaoService;
 	
 	@Autowired
 	private AvaliacaoRespostasDao avaliacaoRespostasDao;
@@ -44,21 +44,20 @@ public class AvaliacaoServiceImpl implements AvaliacaoService {
 	private TipoRespostaAvaliacaoDao tipoRespostaAvaliacaoDao;
 	
 	@Autowired
-	private EstatisticaService estatisticaService;
+	private EstatisticaServiceImpl estatisticaService;
 	
 	@Autowired
-	private TipoEstatisticaService tipoEstatisticaService;
+	private TipoEstatisticaServiceImpl tipoEstatisticaService;
 	
 	@Autowired
-	private TipoRespostaEstatisticaService tipoRespostaEstatisticaService;
+	private TipoRespostaEstatisticaServiceImpl tipoRespostaEstatisticaService;
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
 
 	@Autowired
-	private ContabilizacaoService contabilizacaoService;
+	private ContabilizacaoServiceImpl contabilizacaoService;
 
-	@Override
 	public void salva(FormAvaliacao formAvaliacao) {
 		
 		Usuario usuario = usuarioDao.findById(formAvaliacao.getIdUsuario());
@@ -124,7 +123,6 @@ public class AvaliacaoServiceImpl implements AvaliacaoService {
 		
 	}
 
-	@Override
 	public void salvaRespostas(FormAvaliacaoResult formAvaliacaoResult) {
 		Usuario usuario = usuarioDao.findById(formAvaliacaoResult.getIdUsuario());
 		Usuario avaliado = usuarioDao.findById(formAvaliacaoResult.getIdAvaliado());
@@ -147,7 +145,6 @@ public class AvaliacaoServiceImpl implements AvaliacaoService {
 		}
 	}
 
-	@Override
 	public void atualiza(FormAvaliacao formAvaliacao, String status) {
 		Avaliacao avaliacao = avaliacaoDao.findById(formAvaliacao.getId());
 		avaliacao.setStatus(status);
@@ -206,17 +203,14 @@ public class AvaliacaoServiceImpl implements AvaliacaoService {
 		estatisticaService.salva(estatistica);
 	}
 
-	@Override
 	public void exclui(Long id) {
 		avaliacaoDao.delete(id);
 	}
 
-	@Override
 	public List<Avaliacao> listaPorAvaliadoEStatus(Avaliacao avaliacao) {
 		return avaliacaoDao.listaPorAvaliadoEStatus(avaliacao);
 	}
 	
-	@Override
 	public int countPorAvaliadoEPendente(Avaliacao avaliacao) {
 		return avaliacaoDao.countPorAvaliadoEPendente(avaliacao);
 	}

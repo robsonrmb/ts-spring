@@ -21,7 +21,7 @@ import com.topspin.boot.bean.FormConvite;
 import com.topspin.boot.bean.Quantidade;
 import com.topspin.boot.domain.Convite;
 import com.topspin.boot.domain.Usuario;
-import com.topspin.boot.service.ConviteService;
+import com.topspin.boot.service.ConviteServiceImpl;
 
 @CrossOrigin()
 @RestController
@@ -29,7 +29,7 @@ import com.topspin.boot.service.ConviteService;
 public class ConviteController {
 	
 	@Autowired
-	private ConviteService conviteService;
+	private ConviteServiceImpl conviteService;
 	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<Convite> getUsuario(@PathVariable("id") Long id) {

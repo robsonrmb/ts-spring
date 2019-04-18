@@ -11,7 +11,7 @@ import com.topspin.boot.domain.Amigo;
 import com.topspin.boot.domain.Usuario;
 
 @Repository
-public class AmigoDaoImpl extends AbstractDao<Amigo, Long> implements AmigoDao {
+public class AmigoDaoImpl extends AbstractDao<Amigo, Long> {
 
 	public Amigo buscaAmigo(FormUsuarioAmigo formUsuarioAmigo) {
 		TypedQuery<Amigo> q = getEntityManager().createNamedQuery("busca.porUsuarioEAmigo", Amigo.class); 

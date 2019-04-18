@@ -7,13 +7,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.topspin.boot.dao.TipoEstatisticaDao;
 import com.topspin.boot.domain.TipoEstatistica;
 
-@Service @Transactional(readOnly = false)
-public class TipoEstatisticaServiceImpl implements TipoEstatisticaService {
+@Service 
+@Transactional(readOnly = false)
+public class TipoEstatisticaServiceImpl {
 
 	@Autowired
 	private TipoEstatisticaDao tipoEstatisticaDao;
 	
-	@Override @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 	public TipoEstatistica buscaPorNome(String nome) {
 		return tipoEstatisticaDao.buscaPorNome(nome);
 	}

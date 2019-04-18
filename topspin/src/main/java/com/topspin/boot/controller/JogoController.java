@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.topspin.boot.bean.FormJogo;
 import com.topspin.boot.domain.Jogo;
-import com.topspin.boot.service.JogoService;
+import com.topspin.boot.service.JogoServiceImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 public class JogoController {
 	
 	@Autowired
-	private JogoService jogoService;
+	private JogoServiceImpl jogoService;
 	
 	@ApiOperation(value="Adiciona o resultado do último jogo do usuário.")
 	@PostMapping(value="/add")

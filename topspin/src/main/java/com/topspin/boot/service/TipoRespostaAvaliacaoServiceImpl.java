@@ -7,13 +7,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.topspin.boot.dao.TipoRespostaAvaliacaoDao;
 import com.topspin.boot.domain.TipoRespostaAvaliacao;
 
-@Service @Transactional(readOnly = false)
-public class TipoRespostaAvaliacaoServiceImpl implements TipoRespostaAvaliacaoService {
+@Service 
+@Transactional(readOnly = false)
+public class TipoRespostaAvaliacaoServiceImpl {
 
 	@Autowired
 	private TipoRespostaAvaliacaoDao tipoRespostaAvaliacaoDao;
 	
-	@Override @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 	public TipoRespostaAvaliacao buscaPorNome(String nome) {
 		return tipoRespostaAvaliacaoDao.buscaPorNome(nome);
 	}

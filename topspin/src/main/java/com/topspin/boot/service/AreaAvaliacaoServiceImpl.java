@@ -12,12 +12,11 @@ import com.topspin.boot.domain.AreaAvaliacao;
 import com.topspin.boot.domain.TipoAvaliacao;
 
 @Service @Transactional(readOnly = false)
-public class AreaAvaliacaoServiceImpl implements AreaAvaliacaoService {
+public class AreaAvaliacaoServiceImpl {
 
 	@Autowired
 	private AreaAvaliacaoDao areaAvaliacaoDao;
 
-	@Override
 	public List<AreaAvaliacao> listaAreasAvaliacaoCompleto() {
 		ArrayList<AreaAvaliacao> listaDeAreasAvaliacoes = (ArrayList<AreaAvaliacao>) areaAvaliacaoDao.listaAreasAvaliacaoCompleto();
 		for (AreaAvaliacao aa: listaDeAreasAvaliacoes) {

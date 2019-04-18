@@ -23,7 +23,7 @@ import com.topspin.boot.bean.FormAvaliacaoResult;
 import com.topspin.boot.bean.Quantidade;
 import com.topspin.boot.domain.Avaliacao;
 import com.topspin.boot.domain.Usuario;
-import com.topspin.boot.service.AvaliacaoService;
+import com.topspin.boot.service.AvaliacaoServiceImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 public class AvaliacaoController {
 	
 	@Autowired
-	private AvaliacaoService avaliacaoService;
+	private AvaliacaoServiceImpl avaliacaoService;
 	
 	@ApiOperation(value="Adiciona uma avaliação a um usuário.")
 	@PostMapping(value="/add")

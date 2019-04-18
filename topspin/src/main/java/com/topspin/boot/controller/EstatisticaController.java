@@ -16,9 +16,9 @@ import com.topspin.boot.bean.FormRespQuantidade;
 import com.topspin.boot.domain.TipoEstatistica;
 import com.topspin.boot.domain.TipoRespostaEstatistica;
 import com.topspin.boot.error.ResourceBadRequestException;
-import com.topspin.boot.service.ContabilizacaoService;
-import com.topspin.boot.service.EstatisticaService;
-import com.topspin.boot.service.TipoEstatisticaService;
+import com.topspin.boot.service.ContabilizacaoServiceImpl;
+import com.topspin.boot.service.EstatisticaServiceImpl;
+import com.topspin.boot.service.TipoEstatisticaServiceImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,13 +30,13 @@ import io.swagger.annotations.ApiOperation;
 public class EstatisticaController {
 	
 	@Autowired
-	private EstatisticaService estatisticaService;
+	private EstatisticaServiceImpl estatisticaService;
 	
 	@Autowired
-	private TipoEstatisticaService tipoEstatisticaService;
+	private TipoEstatisticaServiceImpl tipoEstatisticaService;
 	
 	@Autowired
-	private ContabilizacaoService contabilizacaoService;
+	private ContabilizacaoServiceImpl contabilizacaoService;
 	
 	@ApiOperation(value="Lista as estatísticas de vitórias e derrotas do usuário.")
 	@GetMapping(value="/vitoriasederrotas/usuario/{id}")

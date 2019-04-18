@@ -1,5 +1,8 @@
 package com.topspin.boot.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @SuppressWarnings("serial")
@@ -21,4 +24,8 @@ public class TipoRespostaEstatistica extends AbstractEntity<Long> {
 		this.nome = nome;
 	}
 	
+	/* O mappedBy informa que o mapeamento já foi feito do outro lado.
+	@ManyToMany(mappedBy="tipoRespostas")
+	private Set<TipoEstatistica> tipoEstatisticas = new HashSet<TipoEstatistica>();
+	*/
 }

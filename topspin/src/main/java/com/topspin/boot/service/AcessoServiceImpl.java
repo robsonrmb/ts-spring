@@ -11,7 +11,7 @@ import com.topspin.boot.domain.Acesso;
 import com.topspin.boot.domain.Usuario;
 
 @Service @Transactional(readOnly = false)
-public class AcessoServiceImpl implements AcessoService {
+public class AcessoServiceImpl {
 
 	@Autowired
 	private AcessoDao acessoDao;
@@ -19,7 +19,6 @@ public class AcessoServiceImpl implements AcessoService {
 	@Autowired
 	private UsuarioDao usuarioDao;
 	
-	@Override
 	public void salva(FormCadastroLogin formCadastroLogin) {
 		
 		Acesso acesso = new Acesso(formCadastroLogin.getEmail(), formCadastroLogin.getSenha());
@@ -29,22 +28,19 @@ public class AcessoServiceImpl implements AcessoService {
 		usuarioDao.save(usuario);
 	}
 
-	@Override
 	public void atualiza(Acesso usuario) {
 		acessoDao.update(usuario);
 	}
 
-	@Override
 	public void exclui(Long id) {
 		acessoDao.delete(id);
 	}
 
-	@Override @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 	public Acesso buscaPorId(Long id) {
 		return acessoDao.findById(id);
 	}
 
-	@Override
 	public boolean isExisteUsuario(Acesso acesso) {
 		return acessoDao.isExisteUsuario(acesso);
 	}

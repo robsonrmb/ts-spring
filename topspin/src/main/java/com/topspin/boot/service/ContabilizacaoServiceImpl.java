@@ -15,7 +15,7 @@ import com.topspin.boot.domain.Jogo;
 import com.topspin.boot.domain.Usuario;
 
 @Service @Transactional(readOnly = false)
-public class ContabilizacaoServiceImpl implements ContabilizacaoService {
+public class ContabilizacaoServiceImpl {
 
 	@Autowired
 	private ContabilizacaoDao contabilizacaoDao;
@@ -26,7 +26,6 @@ public class ContabilizacaoServiceImpl implements ContabilizacaoService {
 	@Autowired
 	private JogoDao jogoDao;
 	
-	@Override
 	public void salva(Contabilizacao contabilizacao, String tipo) {
 		
 		List<Contabilizacao> listaDeContabilizacao = contabilizacaoDao
@@ -56,7 +55,6 @@ public class ContabilizacaoServiceImpl implements ContabilizacaoService {
 		}
 	}
 
-	@Override
 	public int countContabilizacaoGeralDeAvaliacoesAceitasPorUsuario(Long idUsuario) {
 		
 		List<Contabilizacao> listaDeContabilizacao = contabilizacaoDao
@@ -69,7 +67,6 @@ public class ContabilizacaoServiceImpl implements ContabilizacaoService {
 		return contador;
 	}
 	
-	@Override
 	public int countContabilizacaoGeralDeAvaliacoesRecusadasPorUsuario(Long idUsuario) {
 		
 		List<Contabilizacao> listaDeContabilizacao = contabilizacaoDao
@@ -82,7 +79,6 @@ public class ContabilizacaoServiceImpl implements ContabilizacaoService {
 		return contador;
 	}
 
-	@Override
 	public int countContabilizacaoGeralDeConvitesRecebidosAceitosPorUsuario(Long id) {
 		Usuario usuario = new Usuario();
 		usuario.setId(id);
@@ -94,7 +90,6 @@ public class ContabilizacaoServiceImpl implements ContabilizacaoService {
 		return qtd;
 	}
 
-	@Override
 	public int countContabilizacaoGeralDeConvitesRecebidosRecusadosPorUsuario(Long id) {
 		Usuario usuario = new Usuario();
 		usuario.setId(id);
@@ -106,7 +101,6 @@ public class ContabilizacaoServiceImpl implements ContabilizacaoService {
 		return qtd;
 	}
 
-	@Override
 	public int countContabilizacaoGeralDeConvitesEnviadosPorUsuario(Long id) {
 		Usuario usuario = new Usuario();
 		usuario.setId(id);
@@ -117,7 +111,6 @@ public class ContabilizacaoServiceImpl implements ContabilizacaoService {
 		return qtd;
 	}
 
-	@Override
 	public int countContabilizacaoGeralDeJogosRealizadosPorUsuario(Long id) {
 		Usuario usuario = new Usuario();
 		usuario.setId(id);

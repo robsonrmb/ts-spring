@@ -14,19 +14,19 @@ import com.topspin.boot.domain.Jogo;
 import com.topspin.boot.domain.TipoEstatistica;
 import com.topspin.boot.domain.Usuario;
 
-@Service @Transactional(readOnly = false)
-public class JogoServiceImpl implements JogoService {
+@Service 
+@Transactional(readOnly = false)
+public class JogoServiceImpl {
 
 	@Autowired
 	private JogoDao jogoDao;
 
 	@Autowired
-	private EstatisticaService estatisticaService;
+	private EstatisticaServiceImpl estatisticaService;
 	
 	@Autowired
-	private TipoEstatisticaService tipoEstatisticaService;
+	private TipoEstatisticaServiceImpl tipoEstatisticaService;
 	
-	@Override
 	public void salva(FormJogo formJogo) {
 		
 		Usuario usuario = new Usuario();
@@ -96,32 +96,28 @@ public class JogoServiceImpl implements JogoService {
 		}
 	}
 
-	@Override
 	public void atualiza(Jogo jogo) {
 		jogoDao.update(jogo);
 	}
 	
-	@Override
 	public void exclui(Long id) {
 		jogoDao.delete(id);
 	}
 
-	@Override @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 	public Jogo buscaPorId(Long id) {
 		return jogoDao.findById(id);
 	}
 
-	@Override
 	public List<Jogo> listaTodos() {
 		return jogoDao.findAll();
 	}
 
-	@Override @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 	public List<Jogo> listaPorUsuario(Long id) {
 		return jogoDao.listaPorUsuario(id);
 	}
 
-	@Override
 	public FormJogo buscaUltimosJogosPorUsuario(Long id, int qtd) {
 		List<Jogo> lista = jogoDao.listaUltimosJogosPorUsuario(id, qtd);
 		String ultimosJogos = "";

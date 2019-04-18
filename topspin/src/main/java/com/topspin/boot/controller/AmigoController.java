@@ -1,6 +1,5 @@
 package com.topspin.boot.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.topspin.boot.bean.FormUsuarioAmigo;
 import com.topspin.boot.domain.Usuario;
 import com.topspin.boot.exception.ApiNegocioRuntimeException;
-import com.topspin.boot.service.AmigoService;
+import com.topspin.boot.service.AmigoServiceImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
 public class AmigoController {
 	
 	@Autowired
-	private AmigoService amigoService;
+	private AmigoServiceImpl amigoService;
 
 	@ApiOperation(value="Lista os amigos de um usuário.")
 	@GetMapping(value="/{id}")
