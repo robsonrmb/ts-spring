@@ -27,7 +27,7 @@ public class JogoServiceImpl {
 	@Autowired
 	private TipoEstatisticaServiceImpl tipoEstatisticaService;
 	
-	public void salva(FormJogo formJogo) {
+	public Jogo salva(FormJogo formJogo) {
 		
 		Usuario usuario = new Usuario();
 		usuario.setId(formJogo.getIdUsuario());
@@ -54,6 +54,8 @@ public class JogoServiceImpl {
 		
 		//TIE BREAK PERDIDO
 		gravaEstatisticaTieBreaksPerdidos(formJogo, usuario, dataAtual.get(Calendar.YEAR));
+		
+		return jogo;
 	}
 
 	private void gravaEstatisticaVitoriaOuDerrota(FormJogo formJogo, Usuario usuario, int ano) {

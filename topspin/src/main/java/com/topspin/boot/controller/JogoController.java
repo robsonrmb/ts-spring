@@ -1,5 +1,6 @@
 package com.topspin.boot.controller;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.topspin.boot.bean.FormJogo;
 import com.topspin.boot.domain.Jogo;
@@ -35,8 +37,15 @@ public class JogoController {
 	@ApiOperation(value="Adiciona o resultado do último jogo do usuário.")
 	@PostMapping(value="/add")
     public ResponseEntity<Void> adiciona(@RequestBody FormJogo formJogo){
-		jogoService.salva(formJogo);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+		Jogo jogo = jogoService.salva(formJogo);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+		/*
+		 * Uma inserção deve retornar no Header da requisição o recurso disponível deste novo objeto criado. (uri)
+		 * ResponseEntity.created referente a inclusão.
+		 * 
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(jogo.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+		*/
     }
 	
 	@ApiOperation(value="Lista os últimos jogos de um usuário.")
